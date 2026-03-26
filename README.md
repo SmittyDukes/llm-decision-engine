@@ -1,14 +1,40 @@
-🏀 LLM Basketball Decision System
-A structured LLM-powered decision system that evaluates whether a basketball player’s minutes should be extended, with strict output validation, abstention logic, and full decision trace logging.
+🏀 LLM Decision Engine (Basketball Domain Example)
+A governed LLM decision engine that enforces structured outputs, validation, and policy-based decision control for basketball decision-making scenarios.
+🔎 Example Decision
+Input
+Team is up 4, player has 3 fouls, fatigue index is 0.55, 2 minutes left. Should we extend minutes?
+Output
+{
+  "answer": "do_not_extend",
+  "model_reason": "Player has 3 fouls with 2 minutes left, increasing the risk of fouling out. Fatigue is moderate and may reduce effectiveness.",
+  "policy_reason": "confidence_above_threshold",
+  "confidence": 0.85,
+  "decision_type": "normal"
+}
+
+
 🚀 Overview
-Most LLM applications return unstructured, unverifiable answers.
-This system enforces:
-Structured outputs (JSON contract)
-Validation of model responses
-Decision governance through policy rules
+Most LLM applications rely purely on prompts and trust model outputs.
+This system demonstrates how to wrap LLMs in validation, policy, and logging layers to produce:
+Structured, machine-readable outputs
+Enforced response contracts
+Policy-governed decisions (not blind model trust)
 Abstention under uncertainty
-Full traceability via logging
-The result is a controlled decision pipeline, not just a model response.
+Full decision traceability
+👉 The result is a controlled decision pipeline, not just an LLM response.
+
+
+💡 Why This Matters
+LLMs are powerful but unreliable when used directly.
+This project shows how to move from:
+prompt → response
+to:
+LLM → validation → policy → auditable decision system
+This is the difference between:
+demo-level AI
+production-ready AI systems
+
+
 🧱 System Architecture
 User Input
    ↓
@@ -25,21 +51,10 @@ Decision Policy (abstain / override / accept)
 Logger (JSONL decision trace)
    ↓
 Final Decision Output
-⚙️ Example Usage
-Ask a basketball question:
-Team is up 4, player has 3 fouls, fatigue index is 0.55, 2 minutes left. Should we extend minutes?
 
-Structured output? yes
-📤 Example Output
-{
-  "answer": "do_not_extend",
-  "model_reason": "Player has 3 fouls with 2 minutes left, increasing risk of fouling out. Fatigue is moderate, which may reduce effectiveness and increase defensive mistakes.",
-  "policy_reason": "confidence_above_threshold",
-  "confidence": 0.85,
-  "decision_type": "normal"
-}
+
 ▶️ How to Run
-Clone the repo
+Clone the repository
 Create a virtual environment:
 python3 -m venv .venv && source .venv/bin/activate
 Install dependencies:
@@ -48,7 +63,9 @@ Add your OpenAI API key to .env:
 OPENAI_API_KEY=your-key-here
 Run the system:
 PYTHONPATH=. python3 app/main.py
-🧪 What This System Enforces
+
+🧪 System Guarantees
+
 1. Structured Output Contract
 The model must return:
 {
@@ -56,69 +73,93 @@ The model must return:
   "reason": "string",
   "confidence": 0.0 - 1.0
 }
+
 2. Validation Layer
 The system rejects outputs that violate:
-Missing fields
-Invalid types
+Missing required fields
+Invalid data types
 Invalid answer domain
-Confidence out of bounds
-Empty reasoning
+Confidence outside [0, 1]
+Empty or meaningless reasoning
+
 3. Decision Policy Layer
 The system does not blindly trust the model.
 Rules include:
-Abstain if confidence < threshold
-Abstain if uncertainty detected in reasoning
+Abstain if confidence is below threshold
+Abstain if uncertainty is detected in reasoning
 Override invalid high-confidence abstain
 Reject weak or empty reasoning
+
 4. Logging (Traceability)
-Every decision is logged as a JSONL entry:
+Every decision is recorded as a JSONL event.
+Example Log Entry
 {
-  "event_id": "...",
-  "timestamp": "...",
-  "request": {...},
+  "event_id": "f1183575-cf95-412f-9a77-ecc248c76f00"
+  "timestamp": "2026-03-25T12:00:00Z",
+  "request": {
+    "question": "...",
+    "structured": true
+  },
   "raw_output": "...",
-  "parsed_output": {...},
-  "decision": {...},
-  "retry": {...}
+  "parsed_output": {
+    "answer": "do_not_extend",
+    "reason": "...",
+    "confidence": 0.85
+  },
+  "decision": {
+    "answer": "do_not_extend",
+    "policy_reason": "confidence_above_threshold",
+    "confidence": 0.85
+  }
 }
 This enables:
 debugging
 auditing
-evaluation
 reproducibility
+evaluation
+
 🧠 Key Engineering Decisions
-Why structured output?
-LLMs are unreliable when left unconstrained. A strict JSON contract ensures predictable downstream processing.
-Why validation?
-A syntactically correct response is not necessarily a valid decision. Validation enforces correctness beyond formatting.
-Why a decision policy layer?
+Structured Output
+LLMs are unreliable without constraints. Enforcing JSON ensures predictable downstream processing.
+Validation Layer
+A syntactically valid response is not necessarily correct. Validation enforces contract-level correctness.
+Decision Policy
 Separates:
 model reasoning ≠ system decision
-This allows:
+This enables:
 governance
 overrides
 abstention logic
-Why logging?
+Logging
 Without traceability, system behavior cannot be audited or improved.
+
 ⚠️ Limitations
-No game-state awareness (e.g., clutch vs regular time)
-No player-specific context (skill level, role)
-Static decision thresholds
+No game-state awareness (e.g., clutch vs non-clutch)
+No player-specific context (skill, role, matchup)
+Static confidence thresholds
 No evaluation harness yet
+
+
 🚧 Future Improvements
-Game-state-aware decision policy (clutch situations)
+Game-state-aware decision policy (clutch scenarios)
 Evaluation framework (accuracy, calibration, failure analysis)
 Confidence calibration improvements
-Multi-agent or rule-based arbitration layer
+Multi-agent or rule-based arbitration
 🛠️ Tech Stack
 Python
 OpenAI API
 JSONL logging
-Custom validation + policy layers
+Custom parser, validator, and policy layers
+
+
 🎯 What This Demonstrates
-This project shows:
-End-to-end system design
-Controlled LLM usage (not just prompting)
+This project showcases:
+End-to-end LLM system design
+Structured output enforcement
 Failure handling and retries
-Decision governance
-Production-style logging
+Decision governance architecture
+Production-style logging and traceability
+
+🔥 Final note
+This is not a prompt demo.
+This is a controlled LLM decision system designed for reliability, auditability, and real-world deployment patterns.
