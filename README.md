@@ -1,7 +1,9 @@
 🏀 LLM Decision Engine (Basketball Domain Example)
 
 A governed LLM decision engine that enforces structured outputs, validation, and policy-based decision control for basketball decision-making scenarios.
+
 🔎 Example Decision
+
 Input
 Team is up 4, player has 3 fouls, fatigue index is 0.55, 2 minutes left. Should we extend minutes?
 Output
