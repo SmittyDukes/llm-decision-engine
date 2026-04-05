@@ -1,6 +1,9 @@
 🏀 LLM Decision Engine (Basketball Domain Example)
+
 A governed LLM decision engine that enforces structured outputs, validation, and policy-based decision control for basketball decision-making scenarios.
+
 🔎 Example Decision
+
 Input
 Team is up 4, player has 3 fouls, fatigue index is 0.55, 2 minutes left. Should we extend minutes?
 Output
@@ -14,6 +17,7 @@ Output
 
 
 🚀 Overview
+
 Most LLM applications rely purely on prompts and trust model outputs.
 This system demonstrates how to wrap LLMs in validation, policy, and logging layers to produce:
 Structured, machine-readable outputs
@@ -25,6 +29,7 @@ Full decision traceability
 
 
 💡 Why This Matters
+
 LLMs are powerful but unreliable when used directly.
 This project shows how to move from:
 prompt → response
@@ -36,6 +41,7 @@ production-ready AI systems
 
 
 🧱 System Architecture
+
 User Input
    ↓
 Prompt (structured contract enforced)
@@ -54,6 +60,7 @@ Final Decision Output
 
 
 ▶️ How to Run
+
 Clone the repository
 Create a virtual environment:
 python3 -m venv .venv && source .venv/bin/activate
@@ -119,6 +126,7 @@ reproducibility
 evaluation
 
 🧠 Key Engineering Decisions
+
 Structured Output
 LLMs are unreliable without constraints. Enforcing JSON ensures predictable downstream processing.
 Validation Layer
@@ -134,6 +142,7 @@ Logging
 Without traceability, system behavior cannot be audited or improved.
 
 ⚠️ Limitations
+
 No game-state awareness (e.g., clutch vs non-clutch)
 No player-specific context (skill, role, matchup)
 Static confidence thresholds
@@ -141,6 +150,7 @@ No evaluation harness yet
 
 
 🚧 Future Improvements
+
 Game-state-aware decision policy (clutch scenarios)
 Evaluation framework (accuracy, calibration, failure analysis)
 Confidence calibration improvements
@@ -153,6 +163,7 @@ Custom parser, validator, and policy layers
 
 
 🎯 What This Demonstrates
+
 This project showcases:
 End-to-end LLM system design
 Structured output enforcement
