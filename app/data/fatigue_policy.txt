@@ -1,0 +1,15 @@
+FATIGUE AND MINUTES MANAGEMENT POLICY
+
+Minutes thresholds per game:
+- Starter expected range: 28–36 minutes depending on position and pace.
+- High-usage players (usage rate > 28%): Cap at 32 minutes in non-elimination games.
+- Back-to-back games: Reduce minutes by 10–15% from previous game average.
+
+Fatigue signals:
+- Shooting efficiency drop > 10% from season average after Q3 start = fatigue indicator.
+- Turnover rate increase > 1.5x season average in current game = fatigue indicator.
+- Two or more fatigue signals present: recommend substitution or reduced role.
+
+Rest protocol:
+- Players with 30+ minutes in Q1–Q3 should receive minimum 6 minutes bench rest
+  before Q4 crunch time if score margin allows (>8 points).

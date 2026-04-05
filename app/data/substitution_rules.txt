@@ -1,0 +1,19 @@
+SUBSTITUTION DECISION RULES
+
+Timing windows (preferred substitution moments):
+- Dead ball situations only. Never substitute mid-possession.
+- After a free throw attempt — clock is stopped, clean transition.
+- Timeout calls are primary substitution opportunities.
+
+Rotation depth requirements:
+- Backup must have minimum 10 minutes available (not in foul trouble).
+- If primary backup is also in foul trouble, escalate to third-string with
+  explicit risk flag in decision log.
+
+Lineup continuity rule:
+- Do not substitute more than 2 players simultaneously unless trailing by 10+.
+- Preserve at least 2 starters on court at all times during non-garbage-time.
+
+Garbage time threshold:
+- Lead of 20+ points with under 5 minutes: full bench rotation appropriate.
+- Lead of 12–19 points with under 3 minutes: begin staggered rest.

@@ -1,0 +1,16 @@
+FOUL MANAGEMENT POLICY
+
+Foul thresholds by quarter:
+- 2 fouls in Q1: Consider reducing minutes. Do not bench unless backup is ready.
+- 3 fouls before halftime: Sit for remainder of Q2. Return to start Q3.
+- 4 fouls before Q4: Substitute immediately unless score margin is 4 points or fewer.
+- 5 fouls before end of game: Consider sitting until last 5 minutes of Q4. Backup must be ready.
+- 6 fouls (fouled out): Remove. Log minutes played and backup readiness.
+
+Star player exception:
+- If the player with 4 or 5 fouls is the primary ball handler AND no backup qualifies,
+  keep them in with explicit foul-risk acknowledgment in the decision log.
+
+Defensive foul vs offensive foul weighting:
+- Defensive fouls accumulate faster in high-pace games. Weight defensive foul
+  rate (fouls per 36 min) more heavily than raw foul count when projecting risk.

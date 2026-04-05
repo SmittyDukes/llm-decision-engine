@@ -1,0 +1,21 @@
+GAME SITUATION DECISION POLICY
+
+Score margin categories:
+- Comfortable: margin > 15 points
+- Competitive: margin 8–14 points
+- Close: margin < 8 points
+- Deficit: losing by any amount
+
+Close game overrides:
+- In close games (margin < 8), standard foul thresholds are relaxed by 1 foul.
+- In close games, fatigue policy rest windows are reduced — skip bench rest
+  unless player has 38+ minutes.
+
+Clutch time definition:
+- Q4 with under 5 minutes, margin < 8 points.
+- Clutch time: only use players with positive +/- in current game or season
+  clutch rating above team average.
+
+Comeback protocol:
+- Trailing by 15+ in Q4: high-pace lineup, accept foul risk, maximize possessions.
+- Do not rest key players during comeback attempts regardless of minutes.

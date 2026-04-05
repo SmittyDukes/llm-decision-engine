@@ -1,0 +1,19 @@
+POSITION-SPECIFIC DECISION RULES
+
+Point guard (PG):
+- Hardest to replace mid-game. Apply star player exception liberally.
+- Ball-handling continuity takes priority over foul conservation in close games.
+
+Power forward / center (PF, C):
+- Foul trouble most damaging in half-court defensive schemes.
+- With 4 fouls, shift to help-side only defense. Do not guard post directly.
+- If backup big is a defensive liability, accept 4-foul risk with instructions
+  to avoid post contact.
+
+Shooting guard / small forward (SG, SF):
+- More interchangeable — backup thresholds lower (8 minutes available).
+- Can run small-ball lineup as substitute if needed.
+
+Small-ball lineups:
+- Valid when trailing or needing pace change.
+- Trade rebounding disadvantage for speed and spacing explicitly in decision log.

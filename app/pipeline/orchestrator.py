@@ -7,19 +7,32 @@ from app.pipeline.validator import validate_output
 from app.pipeline.decision import apply_decision_policy
 from app.pipeline.logger import log_event
 from app.schemas.failure_types import FAILURE_TYPES
+from retriever import build_index, retrieve  # ← NEW
+
+# Build index once at startup
+index, all_chunks = build_index()  # ← NEW
 
 
 def ask_basketball_question(question: str, structured: bool = True):
     """
     End-to-end pipeline:
-    LLM → Parse → Validate → Decision → Log
+    Retrieve → LLM → Parse → Validate → Decision → Log
     """
+
+    # --- RETRIEVE RELEVANT POLICY CHUNKS --- ← NEW
+    retrieved_chunks = retrieve(question, index, all_chunks, k=3)
+    context_block = "\n".join([
+        f"[{i+1}] {chunk['source']}: {chunk['text']}"
+        for i, chunk in enumerate(retrieved_chunks)
+    ])
 
     # --- BUILD PROMPT ---
     instructions = (
         "You are a basketball decision-support assistant. "
-        "Answer clearly, stay grounded in basketball reasoning, "
-        "and do not invent facts."
+        "Use the following retrieved policy context to ground your reasoning. "
+        "If the context is relevant, prioritize it over general basketball knowledge. "
+        "Answer clearly and do not invent facts.\n\n"
+        f"--- Retrieved policy context ---\n{context_block}\n--- End context ---"  # ← NEW
     )
 
     if structured:
@@ -153,8 +166,16 @@ def ask_basketball_question(question: str, structured: bool = True):
 
         "raw_output": raw,
         "parsed_output": validate_result["data"],
-
         "decision": final_output,
+
+        "retrieved_chunks": [  # ← NEW — log what was retrieved
+            {
+                "source": chunk["source"],
+                "chunk_id": chunk["chunk_id"],
+                "score": chunk["score"]
+            }
+            for chunk in retrieved_chunks
+        ],
 
         "retry": {
             "attempted": retry_attempted,
@@ -163,5 +184,4 @@ def ask_basketball_question(question: str, structured: bool = True):
     }
 
     log_event(event)
-
     return final_output

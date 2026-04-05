@@ -3,7 +3,8 @@
 __pycache__/
 *.pyc
 .env
-logs/
+logs/*
+!logs/.gitkeep
 .idea/
 .DS_Store
 
