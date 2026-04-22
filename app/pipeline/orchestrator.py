@@ -7,7 +7,7 @@ from app.pipeline.validator import validate_output
 from app.pipeline.decision import apply_decision_policy
 from app.pipeline.logger import log_event
 from app.schemas.failure_types import FAILURE_TYPES
-from retriever import build_index, retrieve  # ← NEW
+from app.retriever import build_index, retrieve
 
 # Build index once at startup
 index, all_chunks = build_index()  # ← NEW
@@ -95,7 +95,7 @@ def ask_basketball_question(question: str, structured: bool = True):
                 input=prompt,
                 temperature=0.3,
             )
-            raw_retry = client.call_llm(prompt)
+            raw_retry = response_retry.output_text
             parse_result = parse_output(raw_retry)
             retry_success = parse_result["status"] == "success"
 

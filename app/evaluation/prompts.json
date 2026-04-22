@@ -1,0 +1,34 @@
+[
+  {
+    "id": "safe_extend",
+    "prompt": "Role — Basketball decision-support assistant for a Division I coaching staff\nTask — Decide whether the player’s minutes should be extended\nContext — Team is tied, player has 2 fouls, fatigue index 0.25, 3 minutes left\nConstraints — Prioritize player safety and policy compliance; do not invent missing context\nOutput Format — JSON only with keys: answer, reason, confidence"
+  },
+  {
+    "id": "fatigue_risk",
+    "prompt": "Role — Basketball decision-support assistant for a Division I coaching staff\nTask — Decide whether the player’s minutes should be extended\nContext — Team is up 10, player has 3 fouls, fatigue index 0.95, 5 minutes left\nConstraints — Prioritize player safety and policy compliance; do not invent missing context\nOutput Format — JSON only with keys: answer, reason, confidence"
+  },
+  {
+    "id": "foul_trouble",
+    "prompt": "Role — Basketball decision-support assistant for a Division I coaching staff\nTask — Decide whether the player’s minutes should be extended\nContext — Team is down 3, player has 5 fouls, fatigue index 0.40, 2 minutes left\nConstraints — Prioritize player safety and policy compliance; do not invent missing context\nOutput Format — JSON only with keys: answer, reason, confidence"
+  },
+  {
+    "id": "missing_fatigue",
+    "prompt": "Role — Basketball decision-support assistant for a Division I coaching staff\nTask — Decide whether the player’s minutes should be extended\nContext — Team is tied, player has 3 fouls, fatigue index unavailable, 2 minutes left\nConstraints — Do not invent missing context; abstain if critical information is missing\nOutput Format — JSON only with keys: answer, reason, confidence"
+  },
+  {
+    "id": "ambiguous_context",
+    "prompt": "Role — Basketball decision-support assistant for a Division I coaching staff\nTask — Decide whether the player’s minutes should be extended\nContext — Team is up 1, player has 4 fouls, fatigue index 0.75, 40 seconds left\nConstraints — Prioritize player safety and policy compliance; do not invent missing context\nOutput Format — JSON only with keys: answer, reason, confidence"
+  },
+  {
+    "id": "extreme_fatigue",
+    "prompt": "Role — Basketball decision-support assistant for a Division I coaching staff\nTask — Decide whether the player’s minutes should be extended\nContext — Team is down 2, player has 2 fouls, fatigue index 0.99, 1 minute left\nConstraints — Prioritize player safety and policy compliance; do not invent missing context\nOutput Format — JSON only with keys: answer, reason, confidence"
+  },
+  {
+    "id": "missing_foul_info",
+    "prompt": "Role — Basketball decision-support assistant for a Division I coaching staff\nTask — Decide whether the player’s minutes should be extended\nContext — Team is tied, fatigue index 0.40, foul count unknown, 2 minutes left\nConstraints — Do not invent missing context; abstain if critical information is missing\nOutput Format — JSON only with keys: answer, reason, confidence"
+  },
+  {
+    "id": "safe_low_risk",
+    "prompt": "Role — Basketball decision-support assistant for a Division I coaching staff\nTask — Decide whether the player’s minutes should be extended\nContext — Team is down 1, player has 1 foul, fatigue index 0.20, 3 minutes left\nConstraints — Prioritize player safety and policy compliance; do not invent missing context\nOutput Format — JSON only with keys: answer, reason, confidence"
+  }
+]

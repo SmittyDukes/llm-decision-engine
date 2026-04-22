@@ -11,6 +11,22 @@ def apply_decision_policy(parsed_output):
     ]
 
     ABSTAIN_THRESHOLD = 0.6
+    MISSING_CONTEXT_KEYWORDS = [
+        "unavailable",
+        "missing",
+        "unknown",
+        "not provided",
+        "cannot determine",
+        "insufficient information",
+        "foul count unknown",
+        "fatigue index unavailable",
+    ]
+    FOUL_TROUBLE_KEYWORDS = [
+        "5 fouls",
+        "five fouls",
+        "fouled out",
+        "foul trouble",
+    ]
 
     answer = parsed_output["answer"]
     reason = (parsed_output["reason"] or "").lower()
@@ -26,7 +42,27 @@ def apply_decision_policy(parsed_output):
             "decision_type": "abstained"
         }
 
-    # --- Rule 2: Low confidence → abstain ---
+    # --- Rule 2: Missing critical context -> abstain ---
+    if any(word in reason for word in MISSING_CONTEXT_KEYWORDS):
+        return {
+            "answer": "abstain",
+            "model_reason": parsed_output["reason"],
+            "reason": "missing_critical_context",
+            "confidence": confidence,
+            "decision_type": "abstained"
+        }
+
+    # --- Rule 3: Foul-out or severe foul trouble -> do_not_extend ---
+    if any(word in reason for word in FOUL_TROUBLE_KEYWORDS):
+        return {
+            "answer": "do_not_extend",
+            "model_reason": parsed_output["reason"],
+            "reason": "foul_trouble_risk",
+            "confidence": confidence,
+            "decision_type": "override"
+        }
+
+    # --- Rule 4: Low confidence -> abstain ---
     if confidence < ABSTAIN_THRESHOLD:
         return {
             "answer": "abstain",
@@ -36,17 +72,18 @@ def apply_decision_policy(parsed_output):
             "decision_type": "abstained"
         }
 
-    # --- Rule 3: Invalid abstain (high confidence + abstain) → override ---
-    if answer == "abstain" and confidence >= ABSTAIN_THRESHOLD:
+    # --- Rule 5: Respect explicit abstain (do not force override) ---
+    if answer == "abstain":
         return {
-            "answer": "do_not_extend",  # conservative default
-            "reason": "override_invalid_abstain_high_confidence",
+            "answer": "abstain",
+            "model_reason": parsed_output["reason"],
+            "reason": "model_selected_abstain",
             "confidence": confidence,
-            "decision_type": "override"
+            "decision_type": "abstained"
         }
 
 
-    # --- Rule 5: Weak/empty reasoning → abstain ---
+    # --- Rule 6: Weak/empty reasoning -> abstain ---
     if not reason.strip():
         return {
             "answer": "abstain",
