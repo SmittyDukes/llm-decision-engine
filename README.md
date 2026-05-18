@@ -40,19 +40,19 @@ production-style AI systems
 
 ## 🧱 System Architecture
 User Input
-   ↓
+   →
 Prompt (structured contract enforced)
-   ↓
+   →
 LLM (gpt-4.1-mini)
-   ↓
+   →
 Parser (JSON extraction + error handling)
-   ↓
+   →
 Validator (schema + type + domain checks)
-   ↓
+   →
 Decision Policy (abstain / override / accept)
-   ↓
+   →
 Logger (JSONL decision trace)
-   ↓
+   →
 Final Decision Output
 
 ## ▶️ How to Run
