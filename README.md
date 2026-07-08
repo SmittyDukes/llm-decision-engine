@@ -40,19 +40,19 @@ production-style AI systems
 
 ## 🧱 System Architecture
 User Input
-   ↓
+   →
 Prompt (structured contract enforced)
-   ↓
+   →
 LLM (gpt-4.1-mini)
-   ↓
+   →
 Parser (JSON extraction + error handling)
-   ↓
+   →
 Validator (schema + type + domain checks)
-   ↓
+   →
 Decision Policy (abstain / override / accept)
-   ↓
+   →
 Logger (JSONL decision trace)
-   ↓
+   →
 Final Decision Output
 
 ## ▶️ How to Run
@@ -184,6 +184,33 @@ Documents include:
 - substitution_rules.txt — timing and rotation depth rules
 - game_situation_policy.txt — score margin and clutch time logic
 - player_position_policy.txt — position-specific decision rules
+
+## Evaluation Harness 
+
+The system includes an automated evaluation framework that measures pipeline 
+reliability against a curated set of test cases.
+
+### 🧠 What it tests
+- Constraint compliance — does the system follow hard policy rules
+- Abstention behavior — does the system abstain when critical information is missing
+- Hallucination detection — does the model invent data not present in the prompt
+- Confidence calibration — does confidence align with expressed uncertainty
+
+### 🧠 Test cases
+8 prompts covering:
+- Safe extension scenarios
+- High fatigue risk
+- Foul trouble (5 fouls — should never extend)
+- Missing fatigue data — must abstain
+- Missing foul data — must abstain
+- Ambiguous high-pressure situations
+- Extreme fatigue edge cases
+
+### 🧪 Results
+8/8 passing after constraint violation fixes in the decision policy layer.
+
+### How to run
+PYTHONPATH=. python3 -m app.evaluation.run_evals
 
 ## ⚠️ Limitations
 Current system limitations:
