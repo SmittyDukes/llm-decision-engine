@@ -1,9 +1,9 @@
-## 🏀 LLM Decision Engine (Basketball Domain Example)
+## LLM Decision Engine (Basketball Domain Example)
 
 A governed LLM decision engine that enforces structured outputs, validation, and policy-based decision control for basketball decision-making scenarios.
 This project demonstrates how to wrap large language models with validation, policy enforcement, and logging layers to create reliable decision systems rather than simple prompt-driven applications.
 
-## 🔎 Example Decision
+## Example Decision
 
 Input
 Team is up 4, player has 3 fouls, fatigue index is 0.55, 2 minutes left.
@@ -17,7 +17,7 @@ Output
   "decision_type": "normal"
 }
 
-## 🚀 Overview
+## Overview
 Most LLM applications rely purely on prompts and blindly trust model outputs.
 This system demonstrates how to wrap LLMs in validation, policy, and logging layers to produce:
 Structured, machine-readable outputs
@@ -26,9 +26,9 @@ Policy-governed decisions
 Abstention under uncertainty
 Full decision traceability
 
-### 👉 The result is a controlled decision pipeline, not just an LLM response.
+### The result is a controlled decision pipeline, not just an LLM response.
 
-## 💡 Why This Matters
+## Why This Matters
 LLMs are powerful but unreliable when used directly.
 This project demonstrates how to move from:
 prompt → response
@@ -38,7 +38,7 @@ This is the difference between:
 demo-level AI
 production-style AI systems
 
-## 🧱 System Architecture
+## System Architecture
 User Input
    →
 Prompt (structured contract enforced)
@@ -55,10 +55,10 @@ Logger (JSONL decision trace)
    →
 Final Decision Output
 
-## ▶️ How to Run
+## How to Run
 1. Clone the repository
-git clone <repo-url>
-cd <repo>
+git clone https://github.com/SmittyDukes/llm-decision-engine.git
+cd llm-decision-engine
 2. Create a virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
@@ -70,7 +70,7 @@ OPENAI_API_KEY=your-key-here
 5. Run the system
 PYTHONPATH=. python3 app/main.py
 
-## 🧪 System Guarantees
+## System Guarantees
 1. Structured Output Contract
 The model must return:
 {
@@ -120,7 +120,7 @@ auditing
 reproducibility
 evaluation
 
-## 🧠 Key Engineering Decisions
+## Key Engineering Decisions
 Structured Output
 LLMs are unreliable without constraints.
 Enforcing JSON ensures predictable downstream processing.
@@ -137,7 +137,7 @@ abstention logic
 Logging
 Without traceability, system behavior cannot be audited or improved.
 
-## 🧠 RAG Architecture (v2)
+## RAG Architecture (v2)
 This project has been upgraded from a prompt-only LLM pipeline to a Retrieval-Augmented Generation (RAG) system.
 Offline Indexing (Build Time)
 Basketball decision policies are stored as plain text documents.
@@ -172,7 +172,7 @@ produce inconsistent decisions
 RAG grounds the model's reasoning in explicit knowledge.
 Every decision can be traced back to retrieved policy documents.
 
-## 📚 Knowledge Base
+## Knowledge Base
 
 Policies are stored as text documents: app/data/
 
@@ -190,13 +190,13 @@ Documents include:
 The system includes an automated evaluation framework that measures pipeline 
 reliability against a curated set of test cases.
 
-### 🧠 What it tests
+### What it tests
 - Constraint compliance — does the system follow hard policy rules
 - Abstention behavior — does the system abstain when critical information is missing
 - Hallucination detection — does the model invent data not present in the prompt
 - Confidence calibration — does confidence align with expressed uncertainty
 
-### 🧠 Test cases
+### Test cases
 8 prompts covering:
 - Safe extension scenarios
 - High fatigue risk
@@ -206,34 +206,34 @@ reliability against a curated set of test cases.
 - Ambiguous high-pressure situations
 - Extreme fatigue edge cases
 
-### 🧪 Results
+### Results
 8/8 passing after constraint violation fixes in the decision policy layer.
 
 ### How to run
 PYTHONPATH=. python3 -m app.evaluation.run_evals
 
-## ⚠️ Limitations
+## Limitations
 Current system limitations:
-No game-state awareness (clutch vs non-clutch)
-No player-specific context (skill, matchup, role)
-Static confidence thresholds
-No automated evaluation harness yet
+- No player-skill or matchup-specific context — `player_position_policy.txt` covers position-level rules, but the system doesn't yet reason about individual skill level or specific matchups
+- Static confidence thresholds — the abstain/override cutoffs are fixed, not learned or tuned against outcome data
+- Evaluation harness is small — 8 curated test cases catch known failure modes, but haven't been stress-tested against a larger, more adversarial set
+- No outcome tracking — decisions aren't yet linked back to what actually happened in-game, so the policy can't be validated or improved against real results
 
-## 🚧 Future Improvements
+## Future Improvements
 Planned enhancements:
-Game-state-aware decision policy
-Evaluation framework (accuracy, calibration, failure analysis)
-Confidence calibration improvements
-Multi-agent or rule-based arbitration
+- Expand the evaluation harness beyond the current 8 curated cases to a larger, more adversarial test set
+- Player-specific context (skill level, matchup history) beyond the existing position-based policy
+- Confidence calibration improvements, validated against tracked outcomes
+- Multi-agent or rule-based arbitration
 
-## 🛠 Tech Stack
+## Tech Stack
 Python
 OpenAI API
 FAISS vector search
 JSONL logging
 Custom parser / validator / policy layers
 
-## 🎯 What This Demonstrates
+## What This Demonstrates
 This project showcases:
 End-to-end LLM system design
 Structured output enforcement
@@ -242,7 +242,7 @@ Decision governance architecture
 Retrieval-augmented reasoning (RAG)
 Production-style logging and traceability
 
-## 🔥 Final Note
+## Final Note
 This is not a prompt demo.
 This is a controlled LLM decision system designed for:
 reliability
