@@ -193,7 +193,7 @@ reliability against a curated set of test cases.
 ### What it tests
 - Constraint compliance — does the system follow hard policy rules
 - Abstention behavior — does the system abstain when critical information is missing
-- Hallucination detection — does the model invent data not present in the prompt
+- Numeric grounding — does the model's output match the numbers actually present in the prompt
 - Confidence calibration — does confidence align with expressed uncertainty
 
 ### Test cases
