@@ -1,7 +1,7 @@
 ## LLM Decision Engine (Basketball Domain Example)
 
 A governed LLM decision engine that enforces structured outputs, validation, and policy-based decision control for basketball decision-making scenarios.
-This project demonstrates how to wrap large language models with validation, policy enforcement, and logging layers to create reliable decision systems rather than simple prompt-driven applications.
+This project demonstrates how to wrap large language models with validation, policy enforcement, and logging layers to demonstrate a layered decision-support prototype rather than a prompt-only application.
 
 ## Example Decision
 
@@ -24,7 +24,7 @@ Structured, machine-readable outputs
 Enforced response contracts
 Policy-governed decisions
 Abstention under uncertainty
-Full decision traceability
+JSONL decision logging for successful structured decisions and several handled failure paths
 
 ### The result is a controlled decision pipeline, not just an LLM response.
 
@@ -36,7 +36,7 @@ to:
 LLM → validation → policy → auditable decision system
 This is the difference between:
 demo-level AI
-production-style AI systems
+an early engineering prototype with explicit controls
 
 ## System Architecture
 User Input
@@ -70,7 +70,7 @@ OPENAI_API_KEY=your-key-here
 5. Run the system
 PYTHONPATH=. python3 app/main.py
 
-## System Guarantees
+## Implemented Controls and Boundaries
 1. Structured Output Contract
 The model must return:
 {
@@ -90,10 +90,10 @@ The system does not blindly trust the model.
 Rules include:
 Abstain if confidence is below threshold
 Abstain if uncertainty is detected in reasoning
-Override invalid high-confidence abstain
+Preserve explicit model abstentions; override some foul-trouble recommendations
 Reject weak or empty reasoning
 4. Logging (Traceability)
-Every decision is recorded as a JSONL event.
+The orchestrator writes JSONL events for successful structured decisions and several handled API, parsing, and validation failures. Retrieval and startup errors are not consistently caught or logged.
 Example Log Entry
 {
   "event_id": "f1183575-cf95-412f-9a77-ecc248c76f00",
@@ -139,7 +139,7 @@ Without traceability, system behavior cannot be audited or improved.
 
 ## RAG Architecture (v2)
 This project has been upgraded from a prompt-only LLM pipeline to a Retrieval-Augmented Generation (RAG) system.
-Offline Indexing (Build Time)
+Index Construction (at module import)
 Basketball decision policies are stored as plain text documents.
 
 Steps:
@@ -150,7 +150,7 @@ Steps:
 
 3. Passages are embedded using OpenAI's text-embedding-3-small
 
-4. Embeddings are stored in a FAISS vector index
+4. Embeddings are added to an in-memory FAISS vector index
 
 5. Cosine similarity is used for retrieval
 
@@ -170,7 +170,7 @@ hallucinate
 drift from policy
 produce inconsistent decisions
 RAG grounds the model's reasoning in explicit knowledge.
-Every decision can be traced back to retrieved policy documents.
+Successful decision logs record retrieved source filenames, chunk IDs, and similarity scores; this is useful for review but does not establish that the model faithfully followed the retrieved material.
 
 ## Knowledge Base
 
@@ -194,7 +194,7 @@ reliability against a curated set of test cases.
 - Constraint compliance — does the system follow hard policy rules
 - Abstention behavior — does the system abstain when critical information is missing
 - Numeric grounding — does the model's output match the numbers actually present in the prompt
-- Confidence calibration — does confidence align with expressed uncertainty
+- Expressed-uncertainty heuristic — flags some high-confidence answers containing uncertainty terms; this is not statistical confidence calibration
 
 ### Test cases
 8 prompts covering:
@@ -207,7 +207,7 @@ reliability against a curated set of test cases.
 - Extreme fatigue edge cases
 
 ### Results
-8/8 passing after constraint violation fixes in the decision policy layer.
+8/8 passing in a previously reported run after decision-policy fixes; this result has not been independently rerun in the current review. The grader applies a limited set of prompt-ID-specific policy checks and a narrow numeric-token heuristic. It is not a comprehensive hallucination, safety, or calibration evaluation.
 
 ### How to run
 PYTHONPATH=. python3 -m app.evaluation.run_evals
@@ -218,6 +218,9 @@ Current system limitations:
 - Static confidence thresholds — the abstain/override cutoffs are fixed, not learned or tuned against outcome data
 - Evaluation harness is small — 8 curated test cases catch known failure modes, but haven't been stress-tested against a larger, more adversarial set
 - No outcome tracking — decisions aren't yet linked back to what actually happened in-game, so the policy can't be validated or improved against real results
+- Missing-context and foul-trouble rules inspect model-generated reasoning rather than independently validating the original question or structured player state; model omissions or negated phrases can evade or misfire these keyword checks
+- Retrieval happens before the orchestrator's API exception handler, and the FAISS index is built at import time; failures here can prevent startup or bypass structured error logging
+- The current logs do not include a dedicated policy-version field, and a logged model confidence is not a calibrated probability
 
 ## Future Improvements
 Planned enhancements:
@@ -240,11 +243,11 @@ Structured output enforcement
 Failure handling and validation
 Decision governance architecture
 Retrieval-augmented reasoning (RAG)
-Production-style logging and traceability
+JSONL decision logging and reviewable retrieval metadata
 
 ## Final Note
 This is not a prompt demo.
 This is a controlled LLM decision system designed for:
 reliability
 auditability
-real-world deployment patterns
+future deployment-oriented design, subject to further testing and hardening
